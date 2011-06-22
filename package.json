@@ -1,0 +1,15 @@
+{
+  "author": "Cyril Gravelier <cyril@18ruedivona.eu> (18ruedivona.eu)",
+  "name": "divona_tempo",
+  "description": "Simple EDF tempo scraper and server",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "ssh://cyril@18ruedivona.eu/home/cyril/git/tempo.nodejs.git"
+  },
+  "engines": {
+    "node": "~v0.4.7"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
