@@ -121,19 +121,27 @@ jsdom.env(URL, [ JQUERY_PATH ], function(errors, window) {
 
     // try to find if the date we want to save already exist.
     mysql.query()
-        .select(['date'])
+        .select(['date', 'color'])
         .from(config.db.table)
         .where('date = ?', [ date ])
         .execute(function(error, rows, cols) {
           // there's some results, so we have to udapte values.
           if (rows.length > 0) {
-            mysql.query()
-              .update(config.db.table)
-              .set({"color": color})
-              .where('date = ?', [ date ])
-              .execute(function() {
-                console.log("Updated values date = "+ date +" / color = "+ color);
-              });
+            // if the color we want to add isn't OK, and
+            // the existing color in db isn't OK too
+            // do nothing (we don't want to erase a color)
+            if ('error' == color && 'error' != rows[0].color) {
+              console.log("Skipped values date = "+ date +" / color = "+ color);
+            }
+            else {
+              mysql.query()
+                .update(config.db.table)
+                .set({"color": color})
+                .where('date = ?', [ date ])
+                .execute(function() {
+                  console.log("Updated values date = "+ date +" / color = "+ color);
+                });
+            }
           }
           // there's no results, so we have to insert values.
           else {
