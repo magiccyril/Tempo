@@ -146,6 +146,23 @@ jsdom.env(URL, [ JQUERY_PATH ], function(errors, window) {
         });
   }
 
+  /**
+   * Check if table exist, and create it if not.
+   */
+  var check_table = function(mysql) {
+    mysql
+      .query('SELECT 1 FROM Information_schema.tables WHERE table_name = "'+ config.db.table +'" AND table_schema = "'+ config.db.db +'"')
+      .execute(function(error, rows, cols) {
+        if (0 == rows.length) {
+          mysql
+            .query('CREATE TABLE `'+ config.db.table +'` (`date` varchar(16) NOT NULL, `color` varchar(8) DEFAULT NULL, PRIMARY KEY (`date`))')
+            .execute(function() {
+              console.log('Table : "'+ config.db.table +'" created');
+            });
+        }
+      });
+  };
+
   // connect to database.
   new mysql.Database({
     hostname: config.db.host,
@@ -155,6 +172,9 @@ jsdom.env(URL, [ JQUERY_PATH ], function(errors, window) {
   }).on('error', function(error) {
       console.log('ERROR: ' + error);
   }).on('ready', function(server) {
+    // check if table exist.
+    check_table(this);
+
     // save today.
     save(this, today_date, today);
     // save tomorrow.
