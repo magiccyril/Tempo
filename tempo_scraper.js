@@ -124,7 +124,7 @@ jsdom.env(URL, [ JQUERY_PATH ], function(errors, window) {
         .select(['date'])
         .from(config.db.table)
         .where('date = ?', [ date ])
-        .execute(function(rows, cols) {
+        .execute(function(error, rows, cols) {
           // there's some results, so we have to udapte values.
           if (rows.length > 0) {
             mysql.query()
