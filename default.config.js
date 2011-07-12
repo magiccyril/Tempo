@@ -11,4 +11,7 @@ config.db.table     = 'table';
 
 config.web.port = process.env.WEB_PORT || 8080;
 
+config.log = true;
+config.logfile = 'log.txt';
+
 module.exports = config;

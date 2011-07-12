@@ -1,5 +1,6 @@
 var jsdom  = require('jsdom');
 var mysql = require('db-mysql');
+var fs = require('fs');
 var config = require('./config');
 
 var JQUERY_PATH = 'jquery.js';
@@ -131,7 +132,7 @@ jsdom.env(URL, [ JQUERY_PATH ], function(errors, window) {
             // the existing color in db isn't OK too
             // do nothing (we don't want to erase a color)
             if ('error' == color && 'error' != rows[0].color) {
-              console.log("Skipped values date = "+ date +" / color = "+ color);
+              log("Skipped values date = "+ date +" / color = "+ color);
             }
             else {
               mysql.query()
@@ -139,7 +140,7 @@ jsdom.env(URL, [ JQUERY_PATH ], function(errors, window) {
                 .set({"color": color})
                 .where('date = ?', [ date ])
                 .execute(function() {
-                  console.log("Updated values date = "+ date +" / color = "+ color);
+                  log("Updated values date = "+ date +" / color = "+ color);
                 });
             }
           }
@@ -148,10 +149,45 @@ jsdom.env(URL, [ JQUERY_PATH ], function(errors, window) {
             mysql.query()
                 .insert(config.db.table, ["date", "color"], [date, color])
                 .execute(function() {
-                  console.log("Inserted values date = "+ date +" / color = "+ color);
+                  log("Inserted values date = "+ date +" / color = "+ color);
                 });
           }
         });
+  }
+
+  var log = function(message) {
+    var date = new Date();
+
+    if (true === config.log) {
+      fs.open(config.logfile, 'a', 0666, function(err, fd){
+        var month = (date.getMonth() + 1);
+        if (month < 10) {
+          month = '0'+ month;
+        }
+        var day = date.getDate();
+        if (day < 10) {
+          day = '0'+ day;
+        }
+        var hour = date.getHours();
+        if (hour < 10) {
+          hour = '0'+ hour;
+        }
+        var minute = date.getMinutes();
+        if (minute < 10) {
+          minute = '0'+ minute;
+        }
+        var second = date.getSeconds();
+        if (second < 10) {
+          second = '0'+ second;
+        }
+        var date_message = date.getFullYear() +'/'+ month +'/'+ day;
+        var time_message = hour +':'+ minute +':'+ second;
+        var log_message = date_message +' '+ time_message +' = '+ message +"\n";
+        fs.write(fd, log_message);
+      });
+    }
+
+    console.log(message);
   }
 
   /**
