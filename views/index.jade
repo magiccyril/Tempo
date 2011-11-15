@@ -1,0 +1,211 @@
+header(id='home', class='hero-unit')
+  h1= title
+  p La couleur du jour de votre abonnement EDF Tempo, et celle du lendemain, tous les jours, dès 17h.
+  p
+    a(class='btn large', href='#about') En savoir plus &raquo;
+    a(class='btn primary large', href='#gauges') Couleur du jour et de demain &raquo;
+
+section(id='gauges', class='row')
+  article(class='span-one-half today')
+    h2 Aujourd'hui
+    - if (today)
+      div(class='gauge gauge-'+ today.getColor(), title=today.translateColor(today.getColor()))
+        p
+          span
+          | #{today.translateColor(today.getColor())}
+    - else
+      div(class='gauge')
+        p
+          span
+          | Non Déterminé
+  article(class='span-one-half tomorow')
+    h2 Demain
+    - if (tomorow)
+      div(class='gauge gauge-'+ tomorow.getColor(), title=tomorow.translateColor(tomorow.getColor()))
+        p
+          span
+          | #{tomorow.translateColor(tomorow.getColor())}
+    - else
+      div(class='gauge')
+        p
+          span
+          | Non Déterminé
+
+section(id='counters', class='row')
+  h2 Nombre de jours restants
+  .span-one-third
+    h3 Bleu
+    p(class='counter')
+      span #{counter_blue}
+  .span-one-third
+    h3 Blanc
+    p(class='counter') 
+      span #{counter_white}
+  .span-one-third
+    h3 Rouge
+    p(class='counter') 
+      span #{counter_red}
+
+section(id='history', class='row')
+  h2 Historique
+  p(class="alert-message error")
+    | Vous devez 
+    strong activer l'exécution du Javascript
+    |  pour visualiser l'historique
+
+section(id='about', class='row')
+  h2 &Agrave; propos
+  h3 EDF Tempo
+  p
+    | Tempo est un abonnement EDF.
+    | Les jours de l’année sont divisés en trois couleurs : bleu (le moins chère), blanc et rouge (le plus chère). 
+    | Et viennent s’ajouter à cela des heures creuses et des heures pleines.
+  p Répartition des jours dans l’année :
+  ul
+    li 22 jours rouges répartis entre le 1er novembre et 31 mars, hors samedi, dimanche et jours fériés.
+    li 43 jours blancs d’octobre à mai, hors dimanche.
+    li 300 jours bleus (301 lors d’année bissextile).
+  p Une journée Tempo commence à 6h du matin et est découpée en deux périodes :
+  ul
+    li Période heures pleines : de 6h à 22h.
+    li Période heures creuses : de 22h à 6h.
+  p
+    | Pour plus d’information, consultez le 
+    a(href='http://bleuciel.edf.com/abonnement-et-contrat/les-prix/les-prix-de-l-electricite/option-tempo/en-savoir-plus-52429.html') site officiel EDF Tempo
+    | .
+
+  h3
+    | Tempo : projet
+    a(href='http://18ruedivona.eu') 18 rue divona
+  p
+    | Ce site vous permet de connaitre la couleur EDF Tempo du jour, ainsi que celle du lendemain dès 17h (dépendant de l’heure de disponibilité de l’information par EDF), 
+    | et de parcourir l’historique complet depuis 2005.
+    br
+    | L’information fournie n’est en rien officielle, et n’est nullement contractuelle.
+  p
+    |  Ce site est un projet personnel, créé dans le but d’avoir les prévisions EDF Tempo sur une page simple, légère, et consultable sur tous les supports (ordinateur, tablette, téléphone mobile).
+
+  h3 Open Source
+  p
+    | Le code source de cette application est entièrement disponible sur 
+    a(href="") GitHub
+    | . Je suis d’ailleurs dans l’attente de
+    a(href="") commentaires sur le code
+    | , de 
+    a(href="") code-review
+    | , de 
+    a(href="") forks 
+    | ou tout autre heureux évènements !
+    br
+    | Ce projet personnel était pour moi l’occasion de tester 
+    a(href="http://nodejs.org/") node.js 
+    | (en utilisant 
+    a(href="http://expressjs.com/") express
+    | ) associée à une base de données no-sql : 
+    a(href="http://redis.io/") redis
+    | . Ainsi que de tester le langage de template 
+    a(href="http://jade-lang.com/") jade 
+    | (j'ai détesté) et le framework css : 
+    a(href="http://twitter.github.com/bootstrap/") Twitter Bootstrap
+    | .
+
+  h3 API
+  p Les données EDF Tempo collectées sont ouvertes au travers d'une API GET :
+  h5
+    span(lang="en") Resource URL (GET)
+  pre http://tempo.18ruedivona.eu/webservice.json
+  h5
+    span(lang="en") Parameters
+  table
+    tr
+      td(class='span4')
+        div(class='parameter', lang="en") year
+        div(class='is_required', lang="en") required
+      td
+        p L’année des jours désirés. Doit être au format YYYY où une erreur sera renvoyée.
+        p
+          strong Exemple
+          | : 2011
+    tr
+      td(class='span4')
+        span(class='parameter', lang="en") month
+        span(class='is_required', lang="en") required
+      td
+        p
+          | Le mois des jours désirés. Peut être au format M ou MM.
+          br
+          | Les mois retournés ne sont pas obligatoirement complets, mais uniquement du premier au dernier jour connu pour le mois.
+        p
+          strong Exemple
+          | : 1
+    tr
+      td(class='span4')
+        div(class='parameter', lang="en") day
+        div(class='is_optional', lang="en") optional
+      td
+        p Jour désiré. Si défini, retournera uniquement ce jour autrement retournera le mois complet.
+        p
+          strong Exemple
+          | : 18
+    tr
+      td(class='span4')
+        div(class='parameter', lang="en") formatted
+        div(class='is_optional', lang="en") optional
+        td 
+          p 
+            | Lorsque 
+            em formatted
+            |  vaut 
+            code true
+            |  ou 
+            code t
+            |  ou 
+            code 1
+            | , les résultats sont formaté par semaine. Les données renvoyées sont organisées en semaine complète (tableau de 7 jours) commençant par le lundi. Ce paramètre ne sera pas pris en compte dans le cas où le paramètre 
+            em days 
+            | est défini.
+          p
+            strong Exemple
+            | : true
+    tr
+      td(class='span4')
+        div(class='parameter', lang="en") callback
+        div(class='is_optional', lang="en") optional
+      td
+        p
+          | Nom de fonction de
+          span(lang='en') callback
+          | . Les données renvoyées seront formatées autour du nom de fonction de ce paramètre 
+          em callback
+          |  (et ainsi renvoyer du JSONP)
+        p
+          strong Exemple
+          | : monbeaucallback
+
+  h3 @Todo
+  ul
+    li Responsive design : faire des media-queries pour adapter le site sur différentes résolutions.
+    li Publier automatiquement sur Twitter la couleur du lendemain.
+    li Corriger les phautes d'ortografe.
+    li Auto update (websockets ?) et notifications HTML.
+    li Application Android (iPhone ?) tirant parti de l'API
+    li Un fond autre que blanc ce serait pas mal non ?
+
+section(id='contact', class='row')
+  h2 Contact
+  div(class='span-one-half twitter')
+    h3 Twitter
+    p
+      | Pour rester en contact, suggérer des améliorations, signaler des erreurs, faire des commentaires, etc. le plus simple est de suivre sur Twitter 
+      a(href='https://twitter.com/edf_tempo') @edf_tempo
+      | .
+    p(class='center')
+      a(href='https://twitter.com/edf_tempo', class='btn info') 
+        span(id='btn-twitter-logo')
+        span(id='btn-twitter-text') Suivre @edf_tempo sur Twitter
+
+  div(class='span-one-half twitter')
+    h3 E-Mail
+    p
+    | Vous trouverez une page de
+    a(href='http://18ruedivona.eu/contact') contact sur 18 rue divona
