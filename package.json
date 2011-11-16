@@ -7,6 +7,7 @@
     , "jsdom": ">= 0.2.9"
     , "redis": ">= 0.6.7"
     , "request": ">= 2.1.1"
+    , "commander": ">= 0.4.0"
   }
   , "name": "EDFTempo"
   , "private": true
