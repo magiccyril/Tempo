@@ -1,10 +1,9 @@
-var express = require('express')
+var config = require('./config.js')
+  , express = require('express')
   , jsdom = require('jsdom')
   , request = require('request')
   , url = require('url')
   , Tempo = require('./tempo.js');
-
-var edf_tempo_url = 'http://bleuciel.edf.com/abonnement-et-contrat/les-prix/les-prix-de-l-electricite/option-tempo/la-couleur-du-jour-2585.html&coe_i_id=2585';
 
 // Instanciated module
 module.exports = function() {
@@ -27,7 +26,7 @@ module.exports = function() {
   });
 
   app.get('/', function(req, res) {
-    request({uri: edf_tempo_url}, function(err, response, body) {
+    request({uri: config.scrap_url}, function(err, response, body) {
       var self = this;
 
       // Just a basic error check

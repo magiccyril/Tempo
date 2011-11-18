@@ -1,0 +1,3 @@
+module.exports = {
+  scrap_url: 'http://bleuciel.edf.com/abonnement-et-contrat/les-prix/les-prix-de-l-electricite/option-tempo/la-couleur-du-jour-2585.html&coe_i_id=2585'
+}
