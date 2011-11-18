@@ -1,3 +1,9 @@
 module.exports = {
   scrap_url: 'http://bleuciel.edf.com/abonnement-et-contrat/les-prix/les-prix-de-l-electricite/option-tempo/la-couleur-du-jour-2585.html&coe_i_id=2585'
+  , twitter_enabled: false
+  , twitter_consumer_key: 'YOUR CONSUMER KEY'
+  , twitter_consumer_secret: 'YOUR CONSUMER SECRET'
+  , twitter_access_token_key: 'YOUR ACCESS TOKEN KEY'
+  , twitter_access_token_secret: 'YOUR ACCESS TOKEN SECRET'
+  , twitter_msg: '%date : %color'
 }
