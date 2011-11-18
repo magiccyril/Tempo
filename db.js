@@ -245,9 +245,9 @@ return {
 
     var is_new = true;
     this.fetchDay(tempo.getDate(), function(err, old) {
-      is_new = false;
       // object found, it's an update.
       if (!err) {
+        is_new = false;
         for (var attr in tempo) {
           old[attr] = tempo[attr];
         }
