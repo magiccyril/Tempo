@@ -53,7 +53,12 @@ module.exports = function() {
 
             if (true === is_new) {
               var twitter = require('./twitter.js')(day);
-              twitter.post(function(err, result) { });
+              twitter.post(function(err, result) {
+                if (err) {
+                  console.log(err);
+                  throw err;
+                }
+              });
             }
           });
         }
