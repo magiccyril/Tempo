@@ -225,7 +225,7 @@ return {
   /**
    * Save a tempo object
    * check if object exist to determine if it's an insertion or an update
-   * callback is called with (err, tempo)
+   * callback is called with (err, tempo, is_new)
    */
   'save': function save(tempo, callback) {
     var self = this;
@@ -237,13 +237,15 @@ return {
       });
     }
 
-    var onReady = function() {
+    var onReady = function(is_new) {
       client.set(_key(tempo.getDate()), tempo.getColor(), function (err) {
-        return callback(err, tempo);
+        return callback(err, tempo, is_new);
       });
     }
 
+    var is_new = true;
     this.fetchDay(tempo.getDate(), function(err, old) {
+      is_new = false;
       // object found, it's an update.
       if (!err) {
         for (var attr in tempo) {
@@ -269,7 +271,7 @@ return {
         decr_counter(tempo.getColor());
       }
 
-      onReady();
+      onReady(is_new);
     });
   }
 }

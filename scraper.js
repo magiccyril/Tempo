@@ -46,9 +46,14 @@ module.exports = function() {
 
         // function to save the forecast.
         var save = function(day) {
-          app.db.save(day, function(err, day) {
+          app.db.save(day, function(err, day, is_new) {
             if (err) {
               console.log(err);
+            }
+
+            if (false === is_new) {
+              var twitter = require('./twitter.js')(day);
+              twitter.post(function(err, result) { });
             }
           });
         }
