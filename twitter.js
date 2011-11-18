@@ -154,7 +154,9 @@ module.exports = function(tempoObj) {
         status: msg
       };
 
-      _twitterClient.apiCall('POST', '/statuses/update.json', params, callback);
+      if (_twitterClient) {
+        _twitterClient.apiCall('POST', '/statuses/update.json', params, callback);
+      }
     }
   }
 }
