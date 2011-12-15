@@ -48,7 +48,7 @@ module.exports = function() {
         var save = function(day) {
           app.db.save(day, function(err, day, is_new) {
             if (err) {
-              console.log(err);
+              //console.log(err);
             }
 
             if (true === is_new) {
