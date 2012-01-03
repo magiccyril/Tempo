@@ -1,5 +1,6 @@
 module.exports = {
-  scrap_url: 'http://bleuciel.edf.com/abonnement-et-contrat/les-prix/les-prix-de-l-electricite/option-tempo/la-couleur-du-jour-2585.html&coe_i_id=2585'
+  google_site_verification: 'YOUR GOOGLE SITE VERIFICATION NUMBER'
+  , scrap_url: 'http://bleuciel.edf.com/abonnement-et-contrat/les-prix/les-prix-de-l-electricite/option-tempo/la-couleur-du-jour-2585.html&coe_i_id=2585'
   , twitter_enabled: false
   , twitter_consumer_key: 'YOUR CONSUMER KEY'
   , twitter_consumer_secret: 'YOUR CONSUMER SECRET'

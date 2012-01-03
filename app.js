@@ -5,6 +5,7 @@
 
 var express = require('express')
   , async = require('async')
+  , config = require('./config.js')
   , app = module.exports = express.createServer();
 
 app.db = require('./db')();
@@ -35,6 +36,11 @@ app.use('/scrap', app.scraper_app = require('./scraper')());
 
 // Mount webservices on /webservice.
 app.use('/webservice.json', app.webservice_app = require('./webservice')());
+
+// Google site verification
+app.get('/google'+ config.google_site_verification +'.html', function(req, res) {
+  res.send('google-site-verification: google'+ config.google_site_verification +'.html');
+});
 
 // Homepage
 app.get('/', function (req, res) {
