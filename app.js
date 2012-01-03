@@ -41,6 +41,10 @@ app.use('/webservice.json', app.webservice_app = require('./webservice')());
 app.get('/google'+ config.google_site_verification +'.html', function (req, res) {
   res.send('google-site-verification: google'+ config.google_site_verification +'.html', { 'Content-Type': 'text/plain' });
 });
+
+// robots.txt
+app.get('/robots.txt', function (req, res) {
+  res.send("User-agent: *\r\nAllow: /", { 'Content-Type': 'text/plain' });
 });
 
 // Homepage
