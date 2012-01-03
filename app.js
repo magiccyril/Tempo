@@ -43,15 +43,21 @@ app.get('/', function (req, res) {
   if (6 > today_date.getHours()) {
     today_date.setDate(today_date.getDate() - 1);
   }
-  var today_year = today_date.getFullYear()
-  var today_month = (today_date.getMonth() + 1 < 10) ? '0' + today_date.getMonth() + 1 : today_date.getMonth() + 1;
+  var today_year = today_date.getFullYear();
+  var today_month = today_date.getMonth() + 1;
+  if (today_month < 10) {
+    today_month = '0'+ today_month;
+  }
   var today_day = (today_date.getDate() < 10) ? '0' + today_date.getDate() : today_date.getDate();
   var today_str = '' + today_year + today_month + today_day;
 
   var tomorow_date = new Date();
   tomorow_date.setDate(today_date.getDate() + 1);
-  var tomorow_year = tomorow_date.getFullYear()
-  var tomorow_month = (tomorow_date.getMonth() + 1 < 10) ? '0' + tomorow_date.getMonth() + 1 : tomorow_date.getMonth() + 1;
+  var tomorow_year = tomorow_date.getFullYear();
+  var tomorow_month = tomorow_date.getMonth() + 1;
+  if (tomorow_month < 10) {
+    tomorow_month = '0'+ tomorow_month;
+  }
   var tomorow_day = (tomorow_date.getDate() < 10) ? '0' + tomorow_date.getDate() : tomorow_date.getDate();
   var tomorow_str = '' + tomorow_year + tomorow_month + tomorow_day;
 
