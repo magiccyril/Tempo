@@ -1,0 +1,79 @@
+!!! 5
+html(lang='fr')
+  head
+    meta(charset='utf-8')
+
+    // HTML5 shim, for IE6-8 support of HTML elements.
+    //if lt IE 9
+      script(src='http://html5shim.googlecode.com/svn/trunk/html5.js')
+
+    script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js')
+    script(src='/javascripts/analytics.js')
+    script(src='/javascripts/bootstrap-scrollspy.js')
+    script(src='/javascripts/jquery.smooth-scroll.min.js')
+
+    link(rel='stylesheet', href='/stylesheets/bootstrap.css')
+    link(rel='stylesheet', href='/stylesheets/style_facebook.css')
+
+    // fav and touch icons.
+    link(rel='shortcut icon', href='/images/favicon.ico')
+    link(rel='apple-touch-icon', href='/images/apple-touch-icon.png')
+    link(rel='apple-touch-icon', sizes='72x72', href='/images/apple-touch-icon-72x72.png')
+    link(rel='apple-touch-icon', sizes='114x114', href='/images/apple-touch-icon-114x114.png')
+
+    title= title
+
+    meta(name='description', content='')
+    meta(name='author', content='Cyril Gravelier')
+
+    //- http://t.co/y1jPVnT
+    link(rel='canonical', href='/')
+  body
+    div.container
+      section(id='gauges', class='row')
+        article(class='span-one-half today')
+          h2 Aujourd'hui
+          - if (today)
+            div(class='gauge gauge-'+ today.getColor(), title=today.translateColor(today.getColor()))
+              p
+                span
+                | #{today.translateColor(today.getColor())}
+          - else
+            div(class='gauge')
+              p
+                span
+                | Non Déterminé
+        article(class='span-one-half tomorow')
+          h2 Demain
+          - if (tomorow)
+            div(class='gauge gauge-'+ tomorow.getColor(), title=tomorow.translateColor(tomorow.getColor()))
+              p
+                span
+                | #{tomorow.translateColor(tomorow.getColor())}
+          - else
+            div(class='gauge')
+              p
+                span
+                | Non Déterminé
+
+      section(id='counters', class='row')
+        h2 Nombre de jours restants
+        .span3
+          h3 Bleu
+          p(class='counter')
+            span #{counter_blue}
+        .span3
+          h3 Blanc
+          p(class='counter') 
+            span #{counter_white}
+        .span3
+          h3 Rouge
+          p(class='counter') 
+            span #{counter_red}
+
+      section(id='history', class='row')
+        h2 Historique
+        p(class="alert-message error")
+          | Vous devez 
+          strong activer l'exécution du Javascript
+          |  pour visualiser l'historique

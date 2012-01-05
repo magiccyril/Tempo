@@ -1,0 +1,146 @@
+body {}
+
+h2, h3, h4 {
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 1em;
+}
+
+.center {
+  text-align: center;
+}
+
+.container {
+    width: 520px;
+}
+.span-one-half {
+  padding-right: 20px;
+  width: 230px;
+}
+
+.row {
+  margin-top: 50px;
+}
+
+header.hero-unit a.btn {
+  margin: 0 1em 0 0;
+}
+
+#history-header {
+  float: left;
+  margin-bottom: 1em;
+  position: relative;
+  width: 100%;
+}
+  #btn-today {
+    position: absolute;
+    left: 50%;
+    margin-left: -76px;
+  }
+
+/**
+ * Gauges.
+ */
+#gauges .today {
+  border-right: 1px solid #eee;
+}
+#gauges .tomorow {
+  margin-left: 19px;
+}
+.gauge {
+  height: 175px;
+  margin: 0 auto;
+  position: relative;
+  width: 228px;
+}
+  .gauge span {
+    background: url(../images/gauge.png) no-repeat center 0;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+  }
+  .gauge-blue span {
+    background-position: center -175px;
+  }
+  .gauge-white span {
+    background-position: center -350px;
+  }
+  .gauge-red span {
+    background-position: center -525px;
+  }
+
+/**
+ * Counters.
+ */
+.counter {
+  font-size: 5em;
+  line-height: 1em;
+  text-align: center;
+}
+  .counter span {
+    background: #ffffff; /* Old browsers */
+    /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUlIiBzdG9wLWNvbG9yPSIjZWZlZmVmIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iNDclIiBzdG9wLWNvbG9yPSIjY2RjZGNkIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iNDglIiBzdG9wLWNvbG9yPSIjYmViZWJlIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iNDklIiBzdG9wLWNvbG9yPSIjZmFmYWZhIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iOTMlIiBzdG9wLWNvbG9yPSIjYzJjMmMyIiBzdG9wLW9wYWNpdHk9IjEiLz4KICA8L2xpbmVhckdyYWRpZW50PgogIDxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjZ3JhZC11Y2dnLWdlbmVyYXRlZCkiIC8+Cjwvc3ZnPg==);
+    background: -moz-linear-gradient(top, #ffffff 0%, #efefef 5%, #cdcdcd 47%, #bebebe 48%, #fafafa 49%, #c2c2c2 93%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(5%,#efefef), color-stop(47%,#cdcdcd), color-stop(48%,#bebebe), color-stop(49%,#fafafa), color-stop(93%,#c2c2c2)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #ffffff 0%,#efefef 5%,#cdcdcd 47%,#bebebe 48%,#fafafa 49%,#c2c2c2 93%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #ffffff 0%,#efefef 5%,#cdcdcd 47%,#bebebe 48%,#fafafa 49%,#c2c2c2 93%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #ffffff 0%,#efefef 5%,#cdcdcd 47%,#bebebe 48%,#fafafa 49%,#c2c2c2 93%); /* IE10+ */
+    background: linear-gradient(top, #ffffff 0%,#efefef 5%,#cdcdcd 47%,#bebebe 48%,#fafafa 49%,#c2c2c2 93%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#c2c2c2',GradientType=0 ); /* IE6-8 */
+    border-radius: 10px;
+    display: inline-block;
+    padding: 0.5em;
+
+    -webkit-box-shadow: 0px 3px 10px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0px 3px 10px rgba(0,0,0,0.5);
+    box-shadow: 0px 3px 10px rgba(0,0,0,0.5);
+
+  }
+
+/**
+ * History
+ */
+#history h2 {
+  margin-bottom: 0;
+}
+#history table th {
+  text-align: center;
+}
+#history table td {
+  background: #E6E6E6;
+  height: 80px;
+  padding-top: 20px;
+  text-align: center;
+  vertical-align: middle;
+  width: 80px;
+}
+#history table td.no {
+  background: #f5f5f5;
+}
+#history table td.blue {
+  background: #049CDB;
+  color: #FFF;
+}
+#history table td.white {
+  background: #FFF;
+}
+#history table td.red {
+  background: #F14A29;
+  color: #FFF;
+}
+#history table td.today {
+  font-weight: bold;
+  font-style: italic;
+}
+#history .day {
+  display: block;
+  font-size: 2em;
+  line-height: 1em;
+}
+#history .color {
+  display: block;
+  margin-top: 1em;
+}

@@ -31,24 +31,11 @@ app.configure('production', function(){
   app.use(express.errorHandler());
 });
 
-// Mount scraper on /scrap.
-app.use('/scrap', app.scraper_app = require('./scraper')());
-
-// Mount webservices on /webservice.
-app.use('/webservice.json', app.webservice_app = require('./webservice')());
-
-// Google site verification
-app.get('/google'+ config.google_site_verification +'.html', function (req, res) {
-  res.send('google-site-verification: google'+ config.google_site_verification +'.html', { 'Content-Type': 'text/plain' });
-});
-
-// robots.txt
-app.get('/robots.txt', function (req, res) {
-  res.send("User-agent: *\r\nAllow: /", { 'Content-Type': 'text/plain' });
-});
-
-// Homepage
-app.get('/', function (req, res) {
+/*
+ * Helper function to get all the datas to render a single page.
+ * @param callback : function(err, results)
+ */
+function getDatas(callback) {
   var today_date = new Date();
   // day start at 6AM.
   if (6 > today_date.getHours()) {
@@ -105,7 +92,28 @@ app.get('/', function (req, res) {
         });
       }
   },
-  function(err, results) {
+  callback);
+}
+
+// Mount scraper on /scrap.
+app.use('/scrap', app.scraper_app = require('./scraper')());
+
+// Mount webservices on /webservice.
+app.use('/webservice.json', app.webservice_app = require('./webservice')());
+
+// Google site verification
+app.get('/google'+ config.google_site_verification +'.html', function (req, res) {
+  res.send('google-site-verification: google'+ config.google_site_verification +'.html', { 'Content-Type': 'text/plain' });
+});
+
+// robots.txt
+app.get('/robots.txt', function (req, res) {
+  res.send("User-agent: *\r\nAllow: /", { 'Content-Type': 'text/plain' });
+});
+
+// Homepage
+app.get('/', function (req, res) {
+  getDatas(function(err, results) {
     res.render('index', {
       'title': 'Tempo',
       'today': results.today,
@@ -116,6 +124,21 @@ app.get('/', function (req, res) {
     });
   });
 });
+
+// Facebook tab page.
+app.get('/facebook_tab_page', function (req, res) {
+  getDatas(function(err, results) {
+    res.render('facebook_tab_page', {
+      'layout': false,
+      'title': 'Tempo',
+      'today': results.today,
+      'tomorow': results.tomorow,
+      'counter_red': results.counter_red,
+      'counter_white': results.counter_white,
+      'counter_blue': results.counter_blue
+    });
+  });
+})
 
 if (module.parent === null) {
   app.listen(3000);
