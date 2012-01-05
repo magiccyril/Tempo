@@ -126,7 +126,7 @@ app.get('/', function (req, res) {
 });
 
 // Facebook tab page.
-app.get('/facebook_tab_page', function (req, res) {
+app.all('/facebook_tab_page', function (req, res) {
   getDatas(function(err, results) {
     res.render('facebook_tab_page', {
       'layout': false,
