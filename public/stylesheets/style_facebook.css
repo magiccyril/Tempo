@@ -1,4 +1,9 @@
-body {}
+body {
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  width: 520px;
+}
 
 h2, h3, h4 {
   text-align: center;
