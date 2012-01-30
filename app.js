@@ -31,6 +31,23 @@ app.configure('production', function(){
   app.use(express.errorHandler());
 });
 
+/**
+ * Helper function to transform a date object to a string date.
+ *
+ * @param date : a date object.
+ * @return string.
+ */
+function date_toString(date) {
+  var date_year = date.getFullYear();
+  var date_month = date.getMonth() + 1;
+  if (date_month < 10) {
+    date_month = '0'+ date_month;
+  }
+  var date_day = (date.getDate() < 10) ? '0' + date.getDate() : date.getDate();
+
+  return '' + date_year + date_month + date_day;
+}
+
 /*
  * Helper function to get all the datas to render a single page.
  * @param callback : function(err, results)
@@ -41,56 +58,44 @@ function getDatas(callback) {
   if (6 > today_date.getHours()) {
     today_date.setDate(today_date.getDate() - 1);
   }
-  var today_year = today_date.getFullYear();
-  var today_month = today_date.getMonth() + 1;
-  if (today_month < 10) {
-    today_month = '0'+ today_month;
-  }
-  var today_day = (today_date.getDate() < 10) ? '0' + today_date.getDate() : today_date.getDate();
-  var today_str = '' + today_year + today_month + today_day;
+  var today_str = date_toString(today_date);
 
   var tomorow_date = new Date();
   tomorow_date.setDate(today_date.getDate() + 1);
-  var tomorow_year = tomorow_date.getFullYear();
-  var tomorow_month = tomorow_date.getMonth() + 1;
-  if (tomorow_month < 10) {
-    tomorow_month = '0'+ tomorow_month;
-  }
-  var tomorow_day = (tomorow_date.getDate() < 10) ? '0' + tomorow_date.getDate() : tomorow_date.getDate();
-  var tomorow_str = '' + tomorow_year + tomorow_month + tomorow_day;
+  var tomorow_str = date_toString(tomorow_date);
 
   // parallel : get views paremeter.
   async.parallel({
-      // get today.
-      today: function(callback) {
-        app.db.fetchDay(today_str, function(err, day) {
-          callback(null, day);
-        });
-      },
-      // get tomorow.
-      tomorow: function(callback) {
-        app.db.fetchDay(tomorow_str, function(err, day) {
-          callback(null, day);
-        });
-      },
-      // get red counter.
-      counter_red: function(callback) {
-        app.db.fetchCounter('red', function(err, count) {
-          callback(null, count);
-        });
-      },
-      // get white counter.
-      counter_white: function(callback) {
-        app.db.fetchCounter('white', function(err, count) {
-          callback(null, count);
-        });
-      },
-      // get blue counter.
-      counter_blue: function(callback) {
-        app.db.fetchCounter('blue', function(err, count) {
-          callback(null, count);
-        });
-      }
+    // get today.
+    today: function(callback) {
+      app.db.fetchDay(today_str, function(err, day) {
+        callback(null, day);
+      });
+    },
+    // get tomorow.
+    tomorow: function(callback) {
+      app.db.fetchDay(tomorow_str, function(err, day) {
+        callback(null, day);
+      });
+    },
+    // get red counter.
+    counter_red: function(callback) {
+      app.db.fetchCounter('red', function(err, count) {
+        callback(null, count);
+      });
+    },
+    // get white counter.
+    counter_white: function(callback) {
+      app.db.fetchCounter('white', function(err, count) {
+        callback(null, count);
+      });
+    },
+    // get blue counter.
+    counter_blue: function(callback) {
+      app.db.fetchCounter('blue', function(err, count) {
+        callback(null, count);
+      });
+    }
   },
   callback);
 }
@@ -111,6 +116,14 @@ app.get('/robots.txt', function (req, res) {
   res.send("User-agent: *\r\nAllow: /", { 'Content-Type': 'text/plain' });
 });
 
+// RSS
+app.get('/rss', function(req, res) {
+  var dates = new Array();
+  for (var i = 0; i < 7; i++) {
+    var date = new Date();
+    date.setDate(date.getDate() - i);
+    dates[i] = date_toString(date);
+  }
 // Homepage
 app.get('/', function (req, res) {
   getDatas(function(err, results) {
