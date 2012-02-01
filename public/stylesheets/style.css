@@ -152,8 +152,10 @@ h2 {
 /**
  * Gauges.
  */
-#gauges .today {
-  border-right: 1px solid #eee;
+@media (min-width: 768px) {
+  #gauges .today {
+    border-right: 1px solid #eee;
+  }
 }
 #gauges .tomorow {
   margin-left: 19px;
