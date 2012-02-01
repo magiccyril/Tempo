@@ -96,16 +96,17 @@ section(id='about', class='row')
     a(href="http://twitter.github.com/bootstrap/") Twitter Bootstrap
     | .
 
-  h3 API
+section(id='api', class='row')
+  h2 API
   p Les données EDF Tempo collectées sont ouvertes au travers d'une API GET :
-  h5
+  h3
     span(lang="en") Resource URL (GET)
   pre http://tempo.18ruedivona.eu/webservice.json
-  h5
+  h3
     span(lang="en") Parameters
-  table
+  table(class='table')
     tr
-      td(class='span4')
+      td(class='span2')
         div(class='parameter', lang="en") year
         div(class='is_required', lang="en") required
       td
@@ -114,7 +115,7 @@ section(id='about', class='row')
           strong Exemple
           | : 2011
     tr
-      td(class='span4')
+      td(class='span2')
         span(class='parameter', lang="en") month
         span(class='is_required', lang="en") required
       td
@@ -126,7 +127,7 @@ section(id='about', class='row')
           strong Exemple
           | : 1
     tr
-      td(class='span4')
+      td(class='span2')
         div(class='parameter', lang="en") day
         div(class='is_optional', lang="en") optional
       td
@@ -135,7 +136,7 @@ section(id='about', class='row')
           strong Exemple
           | : 18
     tr
-      td(class='span4')
+      td(class='span2')
         div(class='parameter', lang="en") formatted
         div(class='is_optional', lang="en") optional
         td 
@@ -155,7 +156,7 @@ section(id='about', class='row')
             strong Exemple
             | : true
     tr
-      td(class='span4')
+      td(class='span2')
         div(class='parameter', lang="en") callback
         div(class='is_optional', lang="en") optional
       td
