@@ -5,6 +5,14 @@ body {
   line-height: 18px;
   padding-top: 60px;
 }
+a {
+  color: #0088cc;
+  text-decoration: none;
+}
+a:hover {
+  color: #005580;
+  text-decoration: underline;
+}
 
 h2, h3, h4 {
   text-align: center;
