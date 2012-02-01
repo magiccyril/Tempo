@@ -93,7 +93,8 @@ $(document).ready(function () {
   */
 
   var history = $('#history');
-  history.find('.alert-message').hide();
+  var history_alert = history.find('.alert')
+  history_alert.hide();
 
   var header = $('<div />');
   header
@@ -146,7 +147,7 @@ $(document).ready(function () {
 
   var table = $('<table />');
   table
-    .addClass('bordered-table')
+    .addClass('table table-bordered')
     .appendTo(history);
 
   var table_body = $('<tbody />');
