@@ -175,6 +175,20 @@ h2 {
 /**
  * Counters.
  */
+.offset-counters {
+  margin-left: 140px;
+}
+@media (max-width: 980px) {
+  .offset-counters {
+    margin-left: 120px;
+  }
+}
+@media (min-width: 1210px) {
+  .offset-counters {
+    margin-left: 160px;
+  }
+}
+
 .counter {
   font-size: 5em;
   line-height: 1em;
