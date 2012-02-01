@@ -92,22 +92,30 @@ $(document).ready(function () {
   });
   */
 
+  /**
+   * History.
+   */
+  // get the history section.
   var history = $('#history');
+  // hide the javascript alert.
   var history_alert = history.find('.alert')
   history_alert.hide();
 
-  var header = $('<div />');
+  // create the section header.
+  var header = $('<header />');
   header
     .attr({
       'id': 'history-header'
     })
     .appendTo(history);
 
+  // header title.
   var header_title = $('<h3/>');
   header_title
     .appendTo(header)
     .html(months[now.month - 1] + ' ' + now.year);
 
+  // create the previous button.
   var prev_month = getPrevMonth(now.month, now.year);
   var prev = $('<a />');
   prev
@@ -124,6 +132,7 @@ $(document).ready(function () {
     prev.hide();
   }
 
+  // create the next button.
   var next_month = getNextMonth(now.month, now.year);
   var next = $('<a />');
   next
@@ -140,6 +149,7 @@ $(document).ready(function () {
     next.hide();
   }
 
+  // create the button to go back to current month.
   var today = $('<a />');
   today
     .addClass('btn center')
@@ -153,14 +163,15 @@ $(document).ready(function () {
     .hide()
     .html("Revenir à aujourd'hui");
 
+  // create the table history.
   var table = $('<table />');
   table
     .addClass('table table-bordered')
     .appendTo(history);
-
   var table_body = $('<tbody />');
   table_body.appendTo(table);
 
+  // table header.
   var table_header = '';
   for (i in days) {
     var day = days[i];
@@ -173,8 +184,10 @@ $(document).ready(function () {
   table_header = '<thead><tr>' + table_header + '</tr></thead>';
   table.prepend($(table_header));
 
+  // get the values for this month.
   get_history(today.year, today.month);
 
+  // callback function when clicking on previous / next / or today buttons.
   function onClick(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -182,6 +195,7 @@ $(document).ready(function () {
     var new_month = parseInt($(this).attr('data-month'), 10);
     var new_year = parseInt($(this).attr('data-year'), 10);
 
+    // get values.
     get_history(new_year, new_month, function() {
       if (new_year == now.year && new_month == now.month) {
         today.hide();
@@ -190,8 +204,10 @@ $(document).ready(function () {
         today.show();
       }
 
+      // change header title.
       header_title.html(months[new_month - 1] + ' ' + new_year);
 
+      // change previous button.
       var prev_month = getPrevMonth(new_month, new_year);
       prev
         .attr({
@@ -206,6 +222,7 @@ $(document).ready(function () {
         prev.show();
       }
 
+      // change next button.
       var next_month = getNextMonth(new_month, new_year);
       next
         .attr({
@@ -224,18 +241,24 @@ $(document).ready(function () {
     });
   }
 
+  // callback function to display all the values.
   function display_history(json) {
+    // empty the table.
     table_body.empty();
 
+    // foreach weeks in jons.
     for (i in json) {
       var week = json[i];
 
+      // create a new line.
       var tr = $('<tr>');
 
+      // foreach days in the week.
       for (j in week) {
         var day = week[j];
         var td = $('<td>');
 
+        // if day is in current month.
         if (day) {
           var html = '';
           html += '<span class="day">'+ day.day +'</span>';
@@ -255,12 +278,14 @@ $(document).ready(function () {
             td.addClass('no');
           }
 
+          // check if this day is today.
           if (day.year == now.year && day.month == now.month && day.day == now.day) {
             td.addClass('today');
           }
 
           td.html(html);
         }
+        // day isn't in the current month.
         else {
           td.addClass('out');
         }
@@ -272,6 +297,7 @@ $(document).ready(function () {
     }
   }
 
+  // get values.
   function get_history(year, month, callback) {
     var year = parseInt(year, 10);
     var month = parseInt(month, 10);
