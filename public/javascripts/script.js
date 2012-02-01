@@ -71,18 +71,18 @@ $(document).ready(function () {
   , navTop = $('.mainnav').length && $('.mainnav').offset().top - 40
   , isFixed = 0;
 
-  processScroll()
+  processScroll();
 
-  $win.on('scroll', processScroll)
+  $win.on('scroll', processScroll);
 
   function processScroll() {
-    var i, scrollTop = $win.scrollTop()
+    var i, scrollTop = $win.scrollTop();
     if (scrollTop >= navTop && !isFixed) {
-      isFixed = 1
-      $nav.addClass('mainnav-fixed')
+      isFixed = 1;
+      $nav.addClass('mainnav-fixed');
     } else if (scrollTop <= navTop && isFixed) {
-      isFixed = 0
-      $nav.removeClass('mainnav-fixed')
+      isFixed = 0;
+      $nav.removeClass('mainnav-fixed');
     }
   }
 
@@ -98,7 +98,9 @@ $(document).ready(function () {
 
   var header = $('<div />');
   header
-    .attr('id', 'history-header')
+    .attr({
+      'id': 'history-header'
+    })
     .appendTo(history);
 
   var header_title = $('<h3/>');
@@ -110,9 +112,11 @@ $(document).ready(function () {
   var prev = $('<a />');
   prev
     .addClass('btn pull-left')
-    .attr('data-month', prev_month.month)
-    .attr('data-year', prev_month.year)
-    .attr('id', 'btn-prev')
+    .attr({
+      'data-month': prev_month.month
+      , 'data-year': prev_month.year
+      , 'id': 'btn-prev'
+    })
     .appendTo(header)
     .bind('click', onClick)
     .html(prev_month.toString);
@@ -124,9 +128,11 @@ $(document).ready(function () {
   var next = $('<a />');
   next
     .addClass('btn pull-right')
-    .attr('data-month', next_month.month)
-    .attr('data-year', next_month.year)
-    .attr('id', 'btn-next')
+    .attr({
+      'data-month': next_month.month
+      , 'data-year': next_month.year
+      , 'id': 'btn-next'
+    })
     .appendTo(header)
     .bind('click', onClick)
     .html(next_month.toString);
@@ -138,9 +144,11 @@ $(document).ready(function () {
   today
     .addClass('btn center')
     .appendTo(header)
-    .attr('data-month', now.month)
-    .attr('data-year', now.year)
-    .attr('id', 'btn-today')
+    .attr({
+      'data-month': now.month
+      , 'data-year': now.year
+      , 'id': 'btn-today'
+    })
     .bind('click', onClick)
     .hide()
     .html("Revenir à aujourd'hui");
@@ -186,8 +194,10 @@ $(document).ready(function () {
 
       var prev_month = getPrevMonth(new_month, new_year);
       prev
-        .attr('data-month', prev_month.month)
-        .attr('data-year', prev_month.year)
+        .attr({
+          'data-month': prev_month.month
+          , 'data-year': prev_month.year
+        })
         .html(prev_month.toString);
       if (prev_month.year <= min.year && prev_month.month < min.month) {
         prev.hide();
@@ -198,8 +208,10 @@ $(document).ready(function () {
 
       var next_month = getNextMonth(new_month, new_year);
       next
-        .attr('data-month', next_month.month)
-        .attr('data-year', next_month.year)
+        .attr({
+          'data-month': next_month.month
+          , 'data-year': next_month.year
+        })
         .html(next_month.toString);
       if (next_month.year >= max.year && next_month.month > max.month) {
         next.hide();
