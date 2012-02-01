@@ -1,5 +1,9 @@
 body {
-  padding-top: 60px;
+  color: #333;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+  padding-top: 90px;
 }
 
 h2, h3, h4 {
@@ -16,13 +20,6 @@ h2 {
 
 .row {
   margin-top: 10em;
-}
-
-body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 13px;
-  line-height: 18px;
-  color: #333;
 }
 
 /**
