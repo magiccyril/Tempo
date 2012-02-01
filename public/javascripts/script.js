@@ -65,7 +65,26 @@ function getNextMonth(month, year) {
 }
 
 $(document).ready(function () {
-  $('#topbar').scrollspy();
+  // fix main nav on scroll
+  var $win = $(window)
+  , $nav = $('.mainnav')
+  , navTop = $('.mainnav').length && $('.mainnav').offset().top - 40
+  , isFixed = 0;
+
+  processScroll()
+
+  $win.on('scroll', processScroll)
+
+  function processScroll() {
+    var i, scrollTop = $win.scrollTop()
+    if (scrollTop >= navTop && !isFixed) {
+      isFixed = 1
+      $nav.addClass('mainnav-fixed')
+    } else if (scrollTop <= navTop && isFixed) {
+      isFixed = 0
+      $nav.removeClass('mainnav-fixed')
+    }
+  }
 
   /*
   $('a').smoothScroll({
