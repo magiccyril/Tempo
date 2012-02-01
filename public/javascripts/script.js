@@ -65,10 +65,13 @@ function getNextMonth(month, year) {
 }
 
 $(document).ready(function () {
-  $('#topbar').scrollSpy();
+  $('#topbar').scrollspy();
+
+  /*
   $('a').smoothScroll({
     offset: -50
   });
+  */
 
   var history = $('#history');
   history.find('.alert-message').hide();
