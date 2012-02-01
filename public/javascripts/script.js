@@ -10,8 +10,18 @@ var months = new Array(
   , 'Septembre'
   , 'Octobre'
   , 'Novembre'
-  , 'Décembre');
-var days = new Array('Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche');
+  , 'Décembre'
+);
+
+var days = new Array(
+  'Lundi'
+  , 'Mardi'
+  , 'Mercredi'
+  , 'Jeudi'
+  , 'Vendredi'
+  , 'Samedi'
+  , 'Dimanche'
+);
 
 var now = {
   date: new Date(),
@@ -43,7 +53,7 @@ function getPrevMonth(month, year) {
   return {
     month: prev_month,
     year: prev_month_year,
-    toString: '&larr; ' + months[prev_month - 1] + ' ' + prev_month_year
+    toString: months[prev_month - 1] + ' ' + prev_month_year
   }
 }
 
@@ -60,11 +70,315 @@ function getNextMonth(month, year) {
   return {
     month: next_month,
     year: next_month_year,
-    toString: months[next_month - 1] + ' ' + next_month_year + ' &rarr;'
+    toString: months[next_month - 1] + ' ' + next_month_year
   }
 }
 
-$(document).ready(function () {
+// object to store all the history structure.
+var history_structure;
+/**
+ * Create all the history strucutre.
+ *
+ * @param wrapper DOMElement
+ * @return object representing the structure.
+ */
+function createHistoryStructure(wrapper) {
+  // create the section header.
+  var header = $('<header />');
+  header
+    .attr({
+      'id': 'history-header'
+    })
+    .appendTo(wrapper);
+
+  // header title.
+  var header_title = $('<h3/>');
+  header_title
+    .appendTo(header)
+    .html(months[now.month - 1] + ' ' + now.year);
+
+  // create the previous button.
+  var prev_month = getPrevMonth(now.month, now.year);
+  var prev = createHistoryButton(prev_month, header, 'btn-prev', 'pull-left');
+  prev
+    .bind('click', onHistoryButtonClick)
+    .bind('changeValues', onPrevButtonChange)
+    .trigger('changeValues', prev_month)
+    .data('icon').addClass('icon-step-backward');
+
+  // create the next button.
+  var next_month = getNextMonth(now.month, now.year);
+  var next = createHistoryButton(next_month, header, 'btn-next', 'pull-right', false);
+  next
+    .bind('click', onHistoryButtonClick)
+    .bind('changeValues', onNextButtonChange)
+    .trigger('changeValues', next_month)
+    .data('icon').addClass('icon-step-forward');
+
+  // create the button to go back to current month.
+  var today = createHistoryButton(now, header, 'btn-today', 'center');
+  today
+    .bind('click', onHistoryButtonClick)
+    .hide();
+  today.data('text').html("Revenir à aujourd'hui");
+  today.data('icon').addClass('icon-share-alt');
+
+  // create the table history.
+  var table = $('<table />');
+  table
+    .addClass('table table-bordered')
+    .appendTo(wrapper);
+  var table_body = $('<tbody />');
+  table_body.appendTo(table);
+
+  // table header.
+  var table_header = '';
+  for (i in days) {
+    var day = days[i];
+    table_header += '<th>';
+      table_header += '<abbr title="'+ day +'">';
+        table_header += day.substr(0, 3) +'.';
+      table_header += '</abbr>';
+    table_header += '</th>';
+  }
+  table_header = '<thead><tr>' + table_header + '</tr></thead>';
+  table.prepend($(table_header));
+
+  // find the alert message.
+  var alert = wrapper.find('.alert');
+
+  return {
+    alert: alert
+    , header: header
+    , header_title: header_title
+    , next_btn: next
+    , prev_btn: prev
+    , table: table
+    , table_header: table_header
+    , today_btn: today
+  }
+}
+
+/**
+ * Helper function to create a DOM Element for a button.
+ *
+ * @param month Object @see getPrevMonth()
+ * @param wrapper Jquery Object
+ * @param css_id String
+ * @param css_class
+ * @return Jquery Object
+ */
+function createHistoryButton(month, wrapper, css_id, css_class, icon_first) {
+  if ('undefined' == typeof css_id) {
+    css_id = '';
+  }
+  if ('undefined' == typeof css_class) {
+    css_class = '';
+  }
+  if ('undefined' == typeof icon_first) {
+    icon_first = true;
+  }
+
+  var btn = $('<a />');
+
+  var icon = $('<i />');
+  var span = $('<span />');
+
+  btn
+    .addClass('btn '+ css_class)
+    .attr({
+      'data-month': month.month
+      , 'data-year': month.year
+      , 'id': css_id
+    });
+
+  if (!icon_first) {
+    btn
+      .append(span)
+      .append(icon);
+  }
+  else {
+    btn
+      .append(icon)
+      .append(span);
+  }
+
+  btn.data({
+    'icon': icon
+    , 'text': span
+  })
+  .appendTo(wrapper);
+
+  return btn;
+}
+
+/**
+ * Callback function when clicking on previous / next / or today buttons.
+ */
+function onHistoryButtonClick(e) {
+  e.preventDefault();
+  e.stopPropagation();
+
+  var new_month = parseInt($(this).attr('data-month'), 10);
+  var new_year = parseInt($(this).attr('data-year'), 10);
+
+  // get values.
+  get_history(new_year, new_month, function() {
+    if (new_year == now.year && new_month == now.month) {
+      history_structure.today_btn.hide();
+    }
+    else {
+      history_structure.today_btn.show();
+    }
+
+    // change header title.
+    history_structure.header_title.html(months[new_month - 1] + ' ' + new_year);
+
+    // change previous button.
+    var prev_month = getPrevMonth(new_month, new_year);
+    history_structure.prev_btn.trigger('changeValues', prev_month);
+
+    // change next button.
+    var next_month = getNextMonth(new_month, new_year);
+    history_structure.next_btn.trigger('changeValues', next_month);
+  });
+}
+
+/**
+ * Callback function for the history previous button.
+ * called when data changing.
+ *
+ * @param prev_month @see getPrevMonth()?
+ */
+function onPrevButtonChange(e, prev_month) {
+  var $self = $(this);
+  $self
+    .attr({
+      'data-month': prev_month.month
+      , 'data-year': prev_month.year
+    })
+    .data('text').html(prev_month.toString);
+  if (prev_month.year <= min.year && prev_month.month < min.month) {
+    $self.hide();
+  }
+  else {
+    $self.show();
+  }
+}
+
+/**
+ * Callback function for the history next button.
+ * called when data changing.
+ *
+ * @param next_month @see getNextMonth().
+ */
+function onNextButtonChange(e, next_month) {
+  var $self = $(this);
+
+  $self
+    .attr({
+      'data-month': next_month.month
+      , 'data-year': next_month.year
+    })
+    .data('text').html(next_month.toString);
+  if (next_month.year >= max.year && next_month.month > max.month) {
+    $self.hide();
+  }
+  else {
+    $self.show();
+  }
+}
+
+/**
+ * Callback function to display all the values.
+ *
+ * @param json JSON.
+ */
+function display_history(json) {
+  // empty the table.
+  history_structure.table.empty();
+
+  // foreach weeks in jons.
+  for (i in json) {
+    var week = json[i];
+
+    // create a new line.
+    var tr = $('<tr>');
+
+    // foreach days in the week.
+    for (j in week) {
+      var day = week[j];
+      var td = $('<td>');
+
+      // if day is in current month.
+      if (day) {
+        var html = '';
+        html += '<span class="day">'+ day.day +'</span>';
+        html += '<span class="color">';
+        if (day.color) {
+          html += ' ' + day.t_color;
+        }
+        else {
+          html += ' -';
+        }
+        html += '</span>';
+
+        if (day.color) {
+          td.addClass(day.color);
+        }
+        else {
+          td.addClass('no');
+        }
+
+        // check if this day is today.
+        if (day.year == now.year && day.month == now.month && day.day == now.day) {
+          td.addClass('today');
+        }
+
+        td.html(html);
+      }
+      // day isn't in the current month.
+      else {
+        td.addClass('out');
+      }
+
+      td.appendTo(tr);
+    }
+
+    tr.appendTo(history_structure.table);
+  }
+}
+
+/**
+ * Get history values.
+ *
+ * @param year Integer
+ * @param month Integer
+ * @param callback Function
+ */
+function get_history(year, month, callback) {
+  var year = parseInt(year, 10);
+  var month = parseInt(month, 10);
+  if (month < 10) {
+    month = '0' + month;
+  }
+
+  $.ajax('/webservice.json?year='+ year +'&month='+ month +'&formatted=true', {
+    error: function() {
+        
+    }
+    , success: function(json) {
+      display_history(json);
+
+      if (callback) {
+        callback();
+      }
+    }
+  });
+}
+
+
+$(document).ready(function() {
   // fix main nav on scroll
   var $win = $(window)
   , $nav = $('.mainnav')
@@ -97,220 +411,11 @@ $(document).ready(function () {
    */
   // get the history section.
   var history = $('#history');
+  // create the strucutre.
+  history_structure = createHistoryStructure(history);
   // hide the javascript alert.
-  var history_alert = history.find('.alert')
-  history_alert.hide();
-
-  // create the section header.
-  var header = $('<header />');
-  header
-    .attr({
-      'id': 'history-header'
-    })
-    .appendTo(history);
-
-  // header title.
-  var header_title = $('<h3/>');
-  header_title
-    .appendTo(header)
-    .html(months[now.month - 1] + ' ' + now.year);
-
-  // create the previous button.
-  var prev_month = getPrevMonth(now.month, now.year);
-  var prev = $('<a />');
-  prev
-    .addClass('btn pull-left')
-    .attr({
-      'data-month': prev_month.month
-      , 'data-year': prev_month.year
-      , 'id': 'btn-prev'
-    })
-    .appendTo(header)
-    .bind('click', onClick)
-    .html(prev_month.toString);
-  if (prev_month.year <= min.year && prev_month.month < min.month) {
-    prev.hide();
-  }
-
-  // create the next button.
-  var next_month = getNextMonth(now.month, now.year);
-  var next = $('<a />');
-  next
-    .addClass('btn pull-right')
-    .attr({
-      'data-month': next_month.month
-      , 'data-year': next_month.year
-      , 'id': 'btn-next'
-    })
-    .appendTo(header)
-    .bind('click', onClick)
-    .html(next_month.toString);
-  if (next_month.year >= max.year && next_month.month > max.month) {
-    next.hide();
-  }
-
-  // create the button to go back to current month.
-  var today = $('<a />');
-  today
-    .addClass('btn center')
-    .appendTo(header)
-    .attr({
-      'data-month': now.month
-      , 'data-year': now.year
-      , 'id': 'btn-today'
-    })
-    .bind('click', onClick)
-    .hide()
-    .html("Revenir à aujourd'hui");
-
-  // create the table history.
-  var table = $('<table />');
-  table
-    .addClass('table table-bordered')
-    .appendTo(history);
-  var table_body = $('<tbody />');
-  table_body.appendTo(table);
-
-  // table header.
-  var table_header = '';
-  for (i in days) {
-    var day = days[i];
-    table_header += '<th>';
-      table_header += '<abbr title="'+ day +'">';
-        table_header += day.substr(0, 3) +'.';
-      table_header += '</abbr>';
-    table_header += '</th>';
-  }
-  table_header = '<thead><tr>' + table_header + '</tr></thead>';
-  table.prepend($(table_header));
+  history_structure.alert.hide();
 
   // get the values for this month.
-  get_history(today.year, today.month);
-
-  // callback function when clicking on previous / next / or today buttons.
-  function onClick(e) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    var new_month = parseInt($(this).attr('data-month'), 10);
-    var new_year = parseInt($(this).attr('data-year'), 10);
-
-    // get values.
-    get_history(new_year, new_month, function() {
-      if (new_year == now.year && new_month == now.month) {
-        today.hide();
-      }
-      else {
-        today.show();
-      }
-
-      // change header title.
-      header_title.html(months[new_month - 1] + ' ' + new_year);
-
-      // change previous button.
-      var prev_month = getPrevMonth(new_month, new_year);
-      prev
-        .attr({
-          'data-month': prev_month.month
-          , 'data-year': prev_month.year
-        })
-        .html(prev_month.toString);
-      if (prev_month.year <= min.year && prev_month.month < min.month) {
-        prev.hide();
-      }
-      else {
-        prev.show();
-      }
-
-      // change next button.
-      var next_month = getNextMonth(new_month, new_year);
-      next
-        .attr({
-          'data-month': next_month.month
-          , 'data-year': next_month.year
-        })
-        .html(next_month.toString);
-      if (next_month.year >= max.year && next_month.month > max.month) {
-        next.hide();
-      }
-      else {
-        next.show();
-      }
-    });
-  }
-
-  // callback function to display all the values.
-  function display_history(json) {
-    // empty the table.
-    table_body.empty();
-
-    // foreach weeks in jons.
-    for (i in json) {
-      var week = json[i];
-
-      // create a new line.
-      var tr = $('<tr>');
-
-      // foreach days in the week.
-      for (j in week) {
-        var day = week[j];
-        var td = $('<td>');
-
-        // if day is in current month.
-        if (day) {
-          var html = '';
-          html += '<span class="day">'+ day.day +'</span>';
-          html += '<span class="color">';
-          if (day.color) {
-            html += ' ' + day.t_color;
-          }
-          else {
-            html += ' -';
-          }
-          html += '</span>';
-
-          if (day.color) {
-            td.addClass(day.color);
-          }
-          else {
-            td.addClass('no');
-          }
-
-          // check if this day is today.
-          if (day.year == now.year && day.month == now.month && day.day == now.day) {
-            td.addClass('today');
-          }
-
-          td.html(html);
-        }
-        // day isn't in the current month.
-        else {
-          td.addClass('out');
-        }
-
-        td.appendTo(tr);
-      }
-
-      tr.appendTo(table_body);
-    }
-  }
-
-  // get values.
-  function get_history(year, month, callback) {
-    var year = parseInt(year, 10);
-    var month = parseInt(month, 10);
-    if (month < 10) {
-      month = '0' + month;
-    }
-
-    $.ajax('/webservice.json?year='+ year +'&month='+ month +'&formatted=true', {
-      success: function (json) {
-        display_history(json);
-
-        if (callback) {
-          callback();
-        }
-      }
-    });
-  }
+  get_history(now.year, now.month);
 });
