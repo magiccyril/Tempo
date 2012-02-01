@@ -219,6 +219,17 @@ h2 {
     padding: 0.5em;
 
   }
+@media (max-width: 768px) {
+  .counter {
+    font-size: 4em;
+  }
+}
+@media (max-width: 480px) {
+  .counter {
+    font-size: 3em;
+  }
+}
+
 
 /**
  * History
