@@ -131,8 +131,17 @@ function createHistoryStructure(wrapper) {
   next
     .bind('click', onHistoryButtonClick)
     .bind('changeValues', onNextButtonChange)
-    .trigger('changeValues', next_month)
-    .data('icon').addClass('icon-step-forward');
+    .trigger('changeValues', next_month);
+  next.data('icon').addClass('icon-step-forward');
+
+  // create fast next button.
+  var fast_next_month = getNextYear(now.month, now.year);
+  var fast_next = createHistoryButton(fast_next_month, header, 'btn-fast-next', 'pull-right', false);
+  fast_next
+    .bind('click', onHistoryButtonClick)
+    .bind('changeValues', onPrevButtonChange)
+    .trigger('changeValues', fast_next_month);
+  fast_next.data('icon').addClass('icon-fast-forward');
 
   // create the button to go back to current month.
   var today = createHistoryButton(now, header, 'btn-today', 'center');
@@ -383,10 +392,13 @@ function get_history(year, month, callback) {
   }
 
   $.ajax('/webservice.json?year='+ year +'&month='+ month +'&formatted=true', {
-    error: function() {
-        
+    error: function(jqXHR, textStatus, errorThrown) {
+      var string = ''+ textStatus + ': '+ errorThrown;
+      history_structure.alert.html(string);
+      history_structure.alert.slideDown();
     }
-    , success: function(json) {
+    , success: function(json, textStatus, jqXHR) {
+      history_structure.alert.slideUp();
       display_history(json);
 
       if (callback) {
