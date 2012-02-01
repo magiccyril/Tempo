@@ -285,6 +285,12 @@ h2 {
   text-align: left;
 }
 
+/**
+ * API
+ */
+#api h3 {
+  text-align: left;
+}
 .parameter {
   display: block;
   font-weight: bold;
