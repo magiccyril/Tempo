@@ -236,8 +236,6 @@ $(document).ready(function () {
       else {
         next.show();
       }
-
-      var month = parseInt(new_month, 10) < 10 ? '0' + new_month : new_month;
     });
   }
 
