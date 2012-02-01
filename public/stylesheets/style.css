@@ -300,6 +300,10 @@ h2 {
   #history .color {
     margin-top: 0;
   }
+  #history #btn-prev span,
+  #history #btn-next span {
+    display: none;
+  }
 }
 @media (min-width: 480px) and (max-width: 768px) {
   #history td {
