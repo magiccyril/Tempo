@@ -23,28 +23,23 @@ html(lang='fr')
 
     //- http://t.co/y1jPVnT
     link(rel='canonical', href='/')
-  body
-    div(class='topbar', data-scrollspy='scrollspy')
-      .fill
-        nav.container
-          a(class='brand', href='#home') Tempo
-          ul(class='nav')
+  body(data-spy='scroll', data-target='.mainnav')
+    div(class='container')
+      header(id='site-header')
+        h1= title
+        p La couleur du jour de votre abonnement EDF Tempo, et celle du lendemain, tous les jours, dès 17h.
+        nav(class='mainnav')
+          ul(class="nav nav-pills")
             li(class='active')
               a(href='#home') Accueil
+            li
+              a(href='#gauges') Couleur du jour, et de demain
             li
               a(href='#history') Historique
             li
               a(href='#about') &Agrave; propos
             li
               a(href='#contact') Contact
-          ul(class='nav secondary-nav')
-            li
-              a(href='http://18ruedivona.eu') 18 rue divona
-
-    div(class='container')
-      header(id='site-header')
-        h1= title
-        p La couleur du jour de votre abonnement EDF Tempo, et celle du lendemain, tous les jours, dès 17h.
         p
           a(class='btn large', href='#about') En savoir plus &raquo;
           a(class='btn primary large', href='#gauges') Couleur du jour et de demain &raquo;
