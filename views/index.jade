@@ -1,5 +1,5 @@
 section(id='gauges', class='row')
-  article(class='span-one-half today')
+  article(class='span6 today')
     h2 Aujourd'hui
     - if (today)
       div(class='gauge gauge-'+ today.getColor(), title=today.translateColor(today.getColor()))
@@ -11,7 +11,7 @@ section(id='gauges', class='row')
         p
           span
           | Non Déterminé
-  article(class='span-one-half tomorow')
+  article(class='span6 tomorow')
     h2 Demain
     - if (tomorow)
       div(class='gauge gauge-'+ tomorow.getColor(), title=tomorow.translateColor(tomorow.getColor()))
@@ -26,15 +26,15 @@ section(id='gauges', class='row')
 
 section(id='counters', class='row')
   h2 Nombre de jours restants
-  .span-one-third
+  div(class='span2')
     h3 Bleu
     p(class='counter')
       span #{counter_blue}
-  .span-one-third
+  div(class='span2')
     h3 Blanc
     p(class='counter') 
       span #{counter_white}
-  .span-one-third
+  div(class='span2')
     h3 Rouge
     p(class='counter') 
       span #{counter_red}
@@ -181,7 +181,7 @@ section(id='about', class='row')
 
 section(id='contact', class='row')
   h2 Contact
-  div(class='span-one-half twitter')
+  div(class='span6 twitter')
     h3 Twitter
     p
       | Pour rester en contact, suggérer des améliorations, signaler des erreurs, faire des commentaires, etc. le plus simple est de suivre sur Twitter 
@@ -192,7 +192,7 @@ section(id='contact', class='row')
         span(id='btn-twitter-logo')
         span(id='btn-twitter-text') Suivre @edf_tempo sur Twitter
 
-  div(class='span-one-half twitter')
+  div(class='span6 twitter')
     h3 E-Mail
     p
     | Vous trouverez une page de
