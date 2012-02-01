@@ -1,3 +1,4 @@
+// Array of all months.
 var months = new Array(
   'Janvier'
   , 'Février'
@@ -13,6 +14,7 @@ var months = new Array(
   , 'Décembre'
 );
 
+// Array of all days.
 var days = new Array(
   'Lundi'
   , 'Mardi'
@@ -23,6 +25,7 @@ var days = new Array(
   , 'Dimanche'
 );
 
+// An object representing now.
 var now = {
   date: new Date(),
   day: new Date().getDate(),
@@ -30,16 +33,25 @@ var now = {
   year: new Date().getFullYear()
 }
 
+// An object the maximum date available.
 var max = {
   month: now.month,
   year: now.year,
 }
 
+// An object the minimum date available.
 var min = {
   month: 9,
   year: 2005
 }
 
+/**
+ * Helper function to get the previous month of a month.
+ *
+ * @param month Integer
+ * @param year Integer
+ * @return object
+ */
 function getPrevMonth(month, year) {
   var month = parseInt(month, 10);
   var prev_month = month - 1;
@@ -57,6 +69,13 @@ function getPrevMonth(month, year) {
   }
 }
 
+/**
+ * Helper function to get the following month of a month.
+ *
+ * @param month Integer
+ * @param year Integer
+ * @return object
+ */
 function getNextMonth(month, year) {
   var month = parseInt(month, 10);
   var next_month = month + 1;
