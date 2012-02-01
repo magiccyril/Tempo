@@ -116,14 +116,6 @@ app.get('/robots.txt', function (req, res) {
   res.send("User-agent: *\r\nAllow: /", { 'Content-Type': 'text/plain' });
 });
 
-// RSS
-app.get('/rss', function(req, res) {
-  var dates = new Array();
-  for (var i = 0; i < 7; i++) {
-    var date = new Date();
-    date.setDate(date.getDate() - i);
-    dates[i] = date_toString(date);
-  }
 // Homepage
 app.get('/', function (req, res) {
   getDatas(function(err, results) {
