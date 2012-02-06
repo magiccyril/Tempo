@@ -148,7 +148,7 @@ function createHistoryStructure(wrapper) {
   today
     .bind('click', onHistoryButtonClick)
     .hide();
-  today.data('text').html("Revenir à aujourd'hui");
+  today.data('text').html("Aujourd'hui");
   today.data('icon').addClass('icon-share-alt');
 
   // create the table history.
@@ -276,7 +276,7 @@ function onHistoryButtonClick(e) {
  * Callback function for the history previous button.
  * called when data changing.
  *
- * @param prev_month @see getPrevMonth()?
+ * @param prev_month @see getPrevMonth().
  */
 function onPrevButtonChange(e, prev_month) {
   var $self = $(this);
