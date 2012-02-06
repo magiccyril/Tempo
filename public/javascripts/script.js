@@ -93,6 +93,45 @@ function getNextMonth(month, year) {
   }
 }
 
+/**
+ * Helper function to get the previous year of a month.
+ *
+ * @param month Integer
+ * @param year Integer
+ * @return object
+ */
+function getPrevYear(month, year) {
+  var month = parseInt(month, 10);
+  var prev_month = month;
+  var prev_month_year = year - 1;
+
+  return {
+    month: prev_month,
+    year: prev_month_year,
+    toString: months[prev_month - 1] + ' ' + prev_month_year
+  }
+}
+
+/**
+ * Helper function to get the previous year of a month.
+ *
+ * @param month Integer
+ * @param year Integer
+ * @return object
+ */
+function getNextYear(month, year) {
+  var month = parseInt(month, 10);
+  var prev_month = month;
+  var prev_month_year = year + 1;
+
+  return {
+    month: prev_month,
+    year: prev_month_year,
+    toString: months[prev_month - 1] + ' ' + prev_month_year
+  }
+}
+
+
 // object to store all the history structure.
 var history_structure;
 /**
@@ -116,6 +155,15 @@ function createHistoryStructure(wrapper) {
     .appendTo(header)
     .html(months[now.month - 1] + ' ' + now.year);
 
+  // create fast previous button.
+  var fast_prev_month = getPrevYear(now.month, now.year);
+  var fast_prev = createHistoryButton(fast_prev_month, header, 'btn-fast-prev', 'pull-left infotip');
+  fast_prev
+    .bind('click', onHistoryButtonClick)
+    .bind('changeValues', onPrevButtonChange)
+    .trigger('changeValues', fast_prev_month);
+  fast_prev.data('icon').addClass('icon-fast-backward');
+
   // create the previous button.
   var prev_month = getPrevMonth(now.month, now.year);
   var prev = createHistoryButton(prev_month, header, 'btn-prev', 'pull-left');
@@ -124,6 +172,17 @@ function createHistoryStructure(wrapper) {
     .bind('changeValues', onPrevButtonChange)
     .trigger('changeValues', prev_month);
   prev.data('icon').addClass('icon-step-backward');
+
+  // create fast next button.
+  var fast_next_month = getNextYear(now.month, now.year);
+  var fast_next = createHistoryButton(fast_next_month, header, 'btn-fast-next', 'pull-right infotip', false);
+  fast_next
+    .bind('click', onHistoryButtonClick)
+    .bind('changeValues', onNextButtonChange)
+    .trigger('changeValues', fast_next_month)
+    // first hide the button.
+    .hide();
+  fast_next.data('icon').addClass('icon-fast-forward');
 
   // create the next button.
   var next_month = getNextMonth(now.month, now.year);
@@ -170,6 +229,8 @@ function createHistoryStructure(wrapper) {
 
   return {
     alert: alert
+    , fast_prev_btn: fast_prev
+    , fast_next_btn: fast_next
     , header: header
     , header_title: header_title
     , next_btn: next
@@ -262,6 +323,14 @@ function onHistoryButtonClick(e) {
     // change next button.
     var next_month = getNextMonth(new_month, new_year);
     history_structure.next_btn.trigger('changeValues', next_month);
+
+    // change fast previous button.
+    var prev_year = getPrevYear(new_month, new_year);
+    history_structure.fast_prev_btn.trigger('changeValues', prev_year);
+
+    // change fast next button.
+    var next_year = getNextYear(new_month, new_year);
+    history_structure.fast_next_btn.trigger('changeValues', next_year);
   });
 }
 
