@@ -303,8 +303,10 @@ function onHistoryButtonClick(e) {
   e.preventDefault();
   e.stopPropagation();
 
-  var new_month = parseInt($(this).attr('data-month'), 10);
-  var new_year = parseInt($(this).attr('data-year'), 10);
+  var $self = $(this);
+
+  var new_month = parseInt($self.attr('data-month'), 10);
+  var new_year = parseInt($self.attr('data-year'), 10);
 
   // get values.
   get_history(new_year, new_month, function() {
