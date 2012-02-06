@@ -134,15 +134,6 @@ function createHistoryStructure(wrapper) {
     .trigger('changeValues', next_month);
   next.data('icon').addClass('icon-step-forward');
 
-  // create fast next button.
-  var fast_next_month = getNextYear(now.month, now.year);
-  var fast_next = createHistoryButton(fast_next_month, header, 'btn-fast-next', 'pull-right', false);
-  fast_next
-    .bind('click', onHistoryButtonClick)
-    .bind('changeValues', onPrevButtonChange)
-    .trigger('changeValues', fast_next_month);
-  fast_next.data('icon').addClass('icon-fast-forward');
-
   // create the button to go back to current month.
   var today = createHistoryButton(now, header, 'btn-today', 'center');
   today
