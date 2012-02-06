@@ -120,7 +120,7 @@ app.get('/robots.txt', function (req, res) {
 app.get('/', function (req, res) {
   getDatas(function(err, results) {
     res.render('index', {
-      'title': 'Tempo',
+      'title': 'EDF Tempo',
       'today': results.today,
       'tomorow': results.tomorow,
       'counter_red': results.counter_red,
@@ -135,7 +135,7 @@ app.all('/facebook_tab_page', function (req, res) {
   getDatas(function(err, results) {
     res.render('facebook_tab_page', {
       'layout': false,
-      'title': 'Tempo',
+      'title': 'EDF Tempo',
       'today': results.today,
       'tomorow': results.tomorow,
       'counter_red': results.counter_red,
