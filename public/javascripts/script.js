@@ -364,6 +364,11 @@ function display_history(json) {
         }
 
         td.html(html);
+
+        // wrap today inside a mark element.
+        if (day.year == now.year && day.month == now.month && day.day == now.day) {
+          td.wrapInner('<mark />');
+        }
       }
       // day isn't in the current month.
       else {
