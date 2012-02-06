@@ -122,8 +122,8 @@ function createHistoryStructure(wrapper) {
   prev
     .bind('click', onHistoryButtonClick)
     .bind('changeValues', onPrevButtonChange)
-    .trigger('changeValues', prev_month)
-    .data('icon').addClass('icon-step-backward');
+    .trigger('changeValues', prev_month);
+  prev.data('icon').addClass('icon-step-backward');
 
   // create the next button.
   var next_month = getNextMonth(now.month, now.year);
@@ -131,7 +131,9 @@ function createHistoryStructure(wrapper) {
   next
     .bind('click', onHistoryButtonClick)
     .bind('changeValues', onNextButtonChange)
-    .trigger('changeValues', next_month);
+    .trigger('changeValues', next_month)
+    // first hide the button.
+    .hide();
   next.data('icon').addClass('icon-step-forward');
 
   // create the button to go back to current month.
