@@ -198,9 +198,10 @@ function createHistoryStructure(wrapper) {
   next.data('icon').addClass('icon-step-forward');
 
   // create the button to go back to current month.
-  var today = createHistoryButton(now, header, 'btn-today', 'center');
+  var today = createHistoryButton(now, header, 'btn-today', 'center infotip');
   today
     .bind('click', onHistoryButtonClick)
+    .attr('data-infotip', now.toString)
     .hide();
   today.data('text').html("Aujourd'hui");
   today.data('icon').addClass('icon-share-alt');
@@ -308,6 +309,9 @@ function onHistoryButtonClick(e) {
   var new_month = parseInt($self.attr('data-month'), 10);
   var new_year = parseInt($self.attr('data-year'), 10);
 
+  // on click hide tooltip to avoid displaying an old tooltip.
+  $self.tooltip('hide');
+
   // get values.
   get_history(new_year, new_month, function() {
     if (new_year == now.year && new_month == now.month) {
@@ -350,7 +354,7 @@ function onPrevButtonChange(e, prev_month) {
     .attr({
       'data-month': prev_month.month
       , 'data-year': prev_month.year
-      , 'title': prev_month.toString
+      , 'data-infotip': prev_month.toString
     });
   $self.data('text').html(prev_month.toString);
 
@@ -378,7 +382,7 @@ function onNextButtonChange(e, next_month) {
     .attr({
       'data-month': next_month.month
       , 'data-year': next_month.year
-      , 'title': next_month.toString
+      , 'data-infotip': next_month.toString
     })
     .data('text').html(next_month.toString);
 
@@ -511,6 +515,13 @@ $(document).ready(function() {
       $nav.removeClass('mainnav-fixed');
     }
   }
+
+  $('body').tooltip({
+    selector: '.infotip'
+    , title: function() {
+      return $(this).attr('data-infotip');
+    }
+  });
 
   /*
   $('a').smoothScroll({
