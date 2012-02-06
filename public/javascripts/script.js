@@ -27,11 +27,13 @@ var days = new Array(
 
 // An object representing now.
 var now = {
-  date: new Date(),
-  day: new Date().getDate(),
-  month: new Date().getMonth() + 1,
-  year: new Date().getFullYear()
+  date: new Date()
+  , day: new Date().getDate()
+  , month: new Date().getMonth() + 1
+  , year: new Date().getFullYear()
 }
+// add now string
+now.toString = months[now.month - 1] + ' ' + now.year;
 
 // An object the maximum date available.
 var max = {
