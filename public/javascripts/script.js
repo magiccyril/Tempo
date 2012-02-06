@@ -246,10 +246,10 @@ function onHistoryButtonClick(e) {
   // get values.
   get_history(new_year, new_month, function() {
     if (new_year == now.year && new_month == now.month) {
-      history_structure.today_btn.hide();
+      history_structure.today_btn.fadeOut('fast');
     }
     else {
-      history_structure.today_btn.show();
+      history_structure.today_btn.fadeIn('fast');
     }
 
     // change header title.
@@ -277,13 +277,18 @@ function onPrevButtonChange(e, prev_month) {
     .attr({
       'data-month': prev_month.month
       , 'data-year': prev_month.year
-    })
-    .data('text').html(prev_month.toString);
-  if (prev_month.year <= min.year && prev_month.month < min.month) {
-    $self.hide();
+      , 'title': prev_month.toString
+    });
+  $self.data('text').html(prev_month.toString);
+
+  if (prev_month.year < min.year) {
+    $self.fadeOut('fast');
+  }
+  else if (prev_month.year <= min.year && prev_month.month < min.month) {
+    $self.fadeOut('fast');
   }
   else {
-    $self.show();
+    $self.fadeIn('fast');
   }
 }
 
@@ -300,13 +305,18 @@ function onNextButtonChange(e, next_month) {
     .attr({
       'data-month': next_month.month
       , 'data-year': next_month.year
+      , 'title': next_month.toString
     })
     .data('text').html(next_month.toString);
-  if (next_month.year >= max.year && next_month.month > max.month) {
-    $self.hide();
+
+  if (next_month.year > max.year) {
+    $self.fadeOut('fast');
+  }
+  else if (next_month.year >= max.year && next_month.month > max.month) {
+    $self.fadeOut('fast');
   }
   else {
-    $self.show();
+    $self.fadeIn('fast');
   }
 }
 
