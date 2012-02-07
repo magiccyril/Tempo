@@ -37,14 +37,14 @@ now.toString = months[now.month - 1] + ' ' + now.year;
 
 // An object the maximum date available.
 var max = {
-  month: now.month,
-  year: now.year,
+  month: now.month
+  , year: now.year
 }
 
 // An object the minimum date available.
 var min = {
-  month: 9,
-  year: 2005
+  month: 9
+  , year: 2005
 }
 
 /**
