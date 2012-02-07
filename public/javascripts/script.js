@@ -508,8 +508,10 @@ function onPageAnchorClick(e) {
   });
 }
 
-$(document).ready(function() {
-  // fix main nav on scroll
+/**
+ * Fix main nav on scroll.
+ */
+function onScrollFixNav() {
   var $win = $(window)
   , $nav = $('.mainnav')
   , navTop = $('.mainnav').length && $('.mainnav').offset().top - 40
@@ -529,7 +531,13 @@ $(document).ready(function() {
       $nav.removeClass('mainnav-fixed');
     }
   }
+}
 
+$(document).ready(function() {
+  // Fix main nav on scroll.
+  onScrollFixNav();
+
+  // tooTips.
   $('body').tooltip({
     selector: '.infotip'
     , title: function() {
