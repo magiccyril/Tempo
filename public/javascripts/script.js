@@ -493,6 +493,20 @@ function get_history(year, month, callback) {
   });
 }
 
+/**
+ * Callback function when a link with an hash has been clicked.
+ */
+function onPageAnchorClick(e) {
+  e.preventDefault();
+
+  var $anchor = $(this);
+
+  $('html, body').stop().animate({
+    scrollTop: $($anchor.attr('href')).offset().top
+  }, 1000, function() {
+    window.location.hash = $anchor.attr('href');
+  });
+}
 
 $(document).ready(function() {
   // fix main nav on scroll
@@ -523,11 +537,7 @@ $(document).ready(function() {
     }
   });
 
-  /*
-  $('a').smoothScroll({
-    offset: -50
-  });
-  */
+  $('a[href^="#"]').bind('click', onPageAnchorClick);
 
   /**
    * History.
