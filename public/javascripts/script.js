@@ -526,7 +526,8 @@ function onScrollFixNav() {
     if (scrollTop >= navTop && !isFixed) {
       isFixed = 1;
       $nav.addClass('mainnav-fixed');
-    } else if (scrollTop <= navTop && isFixed) {
+    }
+    else if (scrollTop <= navTop && isFixed) {
       isFixed = 0;
       $nav.removeClass('mainnav-fixed');
     }
@@ -537,7 +538,7 @@ $(document).ready(function() {
   // Fix main nav on scroll.
   onScrollFixNav();
 
-  // tooTips.
+  // Tooltips.
   $('body').tooltip({
     selector: '.infotip'
     , title: function() {
@@ -556,7 +557,6 @@ $(document).ready(function() {
   history_structure = createHistoryStructure(history);
   // hide the javascript alert.
   history_structure.alert.hide();
-
   // get the values for this month.
   get_history(now.year, now.month);
 });
