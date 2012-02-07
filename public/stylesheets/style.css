@@ -91,8 +91,19 @@ h2 {
     border-radius: 4px 0 0 4px;
     padding-left: 12px;
   }
-  .subnav .nav > li:last-child > a {
+  .mainnav .nav > li:last-child > a {
     border-right: 0;
+  }
+  .mainnav .nav li.brand {
+    border-left: 0;
+    float: right;
+  }
+  .mainnav .nav li.brand a {
+    border-left: 0;
+    color: #CCC;
+    font-weight: bold;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, .1), 0 0 30px rgba(255, 255, 255, .125);
+    transition: all .2s linear;
   }
 
 /* Fixed mainnav on scroll, but only for 980px and up (sorry IE!) */
@@ -141,6 +152,10 @@ h2 {
   .mainnav .nav > li:first-child > a,
   .mainnav .nav > li:first-child > a:hover {
     border-radius: 4px 4px 0 0;
+  }
+
+  .mainnav .nav li.brand {
+    float: none;
   }
 }
 
