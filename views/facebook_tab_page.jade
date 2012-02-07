@@ -7,13 +7,9 @@ html(lang='fr')
     //if lt IE 9
       script(src='http://html5shim.googlecode.com/svn/trunk/html5.js')
 
-    script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js')
-    script(src='/javascripts/analytics.js')
-    script(src='/javascripts/bootstrap-scrollspy.js')
-    script(src='/javascripts/jquery.smooth-scroll.min.js')
-
     link(rel='stylesheet', href='/stylesheets/bootstrap.css')
-    link(rel='stylesheet', href='/stylesheets/style_facebook.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/style-facebook.css')
 
     // fav and touch icons.
     link(rel='shortcut icon', href='/images/favicon.ico')
@@ -26,12 +22,18 @@ html(lang='fr')
     meta(name='description', content='')
     meta(name='author', content='Cyril Gravelier')
 
+    meta(name='viewport', content='width=device-width,initial-scale=1')
+
     //- http://t.co/y1jPVnT
     link(rel='canonical', href='/')
-  body
-    div.container
+  body(data-spy='scroll', data-target='.mainnav', data-offset="50")
+    div(class='container')
+      header(id='site-header')
+        h1= title
+        p(class='lead') La couleur du jour de votre abonnement EDF Tempo, et celle du lendemain, tous les jours, dès 17h.
+
       section(id='gauges', class='row')
-        article(class='span-one-half today')
+        article(class='span6 today')
           h2 Aujourd'hui
           - if (today)
             div(class='gauge gauge-'+ today.getColor(), title=today.translateColor(today.getColor()))
@@ -43,7 +45,7 @@ html(lang='fr')
               p
                 span
                 | Non Déterminé
-        article(class='span-one-half tomorow')
+        article(class='span6 tomorow')
           h2 Demain
           - if (tomorow)
             div(class='gauge gauge-'+ tomorow.getColor(), title=tomorow.translateColor(tomorow.getColor()))
@@ -58,15 +60,106 @@ html(lang='fr')
 
       section(id='counters', class='row')
         h2 Nombre de jours restants
-        .span3
+        div(class='span3 offset-counters')
           h3 Bleu
           p(class='counter')
             span #{counter_blue}
-        .span3
+        div(class='span3')
           h3 Blanc
-          p(class='counter')
+          p(class='counter') 
             span #{counter_white}
-        .span3
+        div(class='span3')
           h3 Rouge
-          p(class='counter')
+          p(class='counter') 
             span #{counter_red}
+
+      section(id='history', class='row')
+        h2 Historique
+        p(class="alert alert-error")
+          | Vous devez 
+          strong activer l'exécution du Javascript
+          |  pour visualiser l'historique
+
+      section(id='about', class='row')
+        h2 &Agrave; propos
+        h3 EDF Tempo
+        p
+          | Tempo est un abonnement EDF.
+          | Les jours de l’année sont divisés en trois couleurs : bleu (le moins chère), blanc et rouge (le plus chère). 
+          | Et viennent s’ajouter à cela des heures creuses et des heures pleines.
+        p Répartition des jours dans l’année :
+        ul
+          li 22 jours rouges répartis entre le 1er novembre et 31 mars, hors samedi, dimanche et jours fériés.
+          li 43 jours blancs d’octobre à mai, hors dimanche.
+          li 300 jours bleus (301 lors d’année bissextile).
+        p Une journée Tempo commence à 6h du matin et est découpée en deux périodes :
+        ul
+          li Période heures pleines : de 6h à 22h.
+          li Période heures creuses : de 22h à 6h.
+        p
+          | Pour plus d’information, consultez le 
+          a(href='http://bleuciel.edf.com/abonnement-et-contrat/les-prix/les-prix-de-l-electricite/option-tempo/en-savoir-plus-52429.html') site officiel EDF Tempo
+          | .
+
+        h3
+          | Tempo : projet
+          a(href='http://18ruedivona.eu') 18 rue divona
+        p
+          | Ce site vous permet de connaitre la couleur EDF Tempo du jour, ainsi que celle du lendemain dès 17h (dépendant de l’heure de disponibilité de l’information par EDF), 
+          | et de parcourir l’historique complet depuis 2005.
+          br
+          | L’information fournie n’est en rien officielle, et n’est nullement contractuelle.
+        p
+          |  Ce site est un projet personnel, créé dans le but d’avoir les prévisions EDF Tempo sur une page simple, légère, et consultable sur tous les supports (ordinateur, tablette, téléphone mobile).
+
+        h3 Open Source
+        p
+          | Le code source de cette application est entièrement disponible sur 
+          a(href="https://github.com/magiccyril/Divona-Tempo") GitHub
+          | . Je suis d’ailleurs dans l’attente de commentaires sur le code, de code-review, de forks ou tout autre heureux évènement !
+          br
+          | Ce projet personnel était pour moi l’occasion de tester 
+          a(href="http://nodejs.org/") node.js 
+          | (en utilisant 
+          a(href="http://expressjs.com/") express
+          | ) associée à une base de données no-sql : 
+          a(href="http://redis.io/") redis
+          | . Ainsi que de tester le langage de template 
+          a(href="http://jade-lang.com/") jade 
+          | (j'ai détesté) et le framework css : 
+          a(href="http://twitter.github.com/bootstrap/") Twitter Bootstrap
+          | .
+
+      section(id='contact', class='row')
+        h2 Contact
+        div(class='span6 twitter')
+          h3 Twitter
+          p
+            | Pour rester en contact, suggérer des améliorations, signaler des erreurs, faire des commentaires, etc. le plus simple est de suivre sur Twitter 
+            a(href='https://twitter.com/edf_tempo') @edf_tempo
+            | .
+          p(class='center')
+            a(href='https://twitter.com/edf_tempo', class='btn btn-info') 
+              span(id='btn-twitter-logo')
+              span(id='btn-twitter-text') Suivre @edf_tempo sur Twitter
+
+        div(class='span6 twitter')
+          h3 E-Mail
+          p
+          | Vous trouverez une page de
+          a(href='http://18ruedivona.eu/contact') contact sur 18 rue divona
+
+
+      footer(class='row')
+        p(class='pull-left')
+          a(href='/scrap') Scrap
+        p(class='pull-right')
+          |  Site non officiel, données non contractuelles
+          |  - un projet 
+          a(href='http://18ruedivona.eu') 18 rue divona
+
+    script(src='//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js')
+    script window.jQuery || document.write('<s'+'cript src="/javascripts/jquery-1.7.1.min.js"><\/s'+'cript>')
+    script(src='/javascripts/bootstrap.js', defer)
+    script(src='/javascripts/script.js', defer)
+    script(src='/javascripts/analytics.js', defer)
