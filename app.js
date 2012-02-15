@@ -106,6 +106,9 @@ app.use('/scrap', app.scraper_app = require('./scraper')());
 // Mount webservices on /webservice.
 app.use('/webservice.json', app.webservice_app = require('./webservice')());
 
+// Mount forecast on /forecast.
+app.use('/forecast.json', app.webservice_app = require('./forecast')());
+
 // Google site verification
 app.get('/google'+ config.google_site_verification +'.html', function (req, res) {
   res.send('google-site-verification: google'+ config.google_site_verification +'.html', { 'Content-Type': 'text/plain' });
