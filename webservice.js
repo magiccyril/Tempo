@@ -200,6 +200,8 @@ module.exports = function() {
       }
     }
 
+    res.header('Access-Control-Allow-Origin', '*');
+
     // if there's no day parameter,
     // get month forecast.
     if (false === day) {
