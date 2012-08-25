@@ -50,7 +50,7 @@ module.exports = function(date, color) {
       case 'juillet':
         month = '07';
         break;
-      case 'aout':
+      case 'août':
         month = '08';
         break;
       case 'septembre':
