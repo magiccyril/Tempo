@@ -130,21 +130,7 @@ app.get('/', function (req, res) {
   });
 });
 
-// Facebook tab page.
-app.all('/facebook_tab_page', function (req, res) {
-  getDatas(function(err, results) {
-    res.render('facebook_tab_page', {
-      'layout': false,
       'title': 'EDF Tempo',
-      'today': results.today,
-      'tomorow': results.tomorow,
-      'counter_red': results.counter_red,
-      'counter_white': results.counter_white,
-      'counter_blue': results.counter_blue
-    });
-  });
-})
-
 if (module.parent === null) {
   app.listen(3000);
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
