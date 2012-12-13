@@ -118,6 +118,10 @@ app.get('/robots.txt', function (req, res) {
 
 // Homepage
 app.get('/', function (req, res) {
+  if (req.headers.host != config.domain) {
+    res.redirect('http://' + config.domain, 301);
+  }
+
   getDatas(function(err, results) {
     res.render('index', {
       'title': 'EDF Tempo',
@@ -130,7 +134,6 @@ app.get('/', function (req, res) {
   });
 });
 
-      'title': 'EDF Tempo',
 if (module.parent === null) {
   app.listen(3000);
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
