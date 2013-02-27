@@ -124,6 +124,7 @@ app.get('/', function (req, res) {
 
   getDatas(function(err, results) {
     res.render('index', {
+      'url': 'http://' + config.domain,
       'title': 'EDF Tempo',
       'today': results.today,
       'tomorow': results.tomorow,
